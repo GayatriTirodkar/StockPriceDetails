@@ -1,0 +1,46 @@
+a. 3rd and 4th highest market cap companies sector wise
+
+1. 3rd highest market capital value section wise:
+
+select t.sector, (select p.market_capital from stockcompanies p where p.sector = t.sector order by p.market_capital desc limit 2,1 ) thirdhighest from stockcompanies t group by t.sector;
+
+2. 4th highest market_capital value section wise:
+
+select t.sector, (select p.market_capital from stockcompanies p where p.sector = t.sector order by p.market_capital desc limit 3,1 ) fourthhighest from stockcompanies t group by t.sector;
+
+
+nth highest: (a small extra bit):
+
+select t.sector, (select p.market_capital from stockcompanies p where p.sector = t.sector order by p.market_capital desc limit N-1,1 ) highest from stockcompanies t group by t.sector;
+
+============================================================================================================
+
+b. Bucket P/E ratios in interval of 5, 11-15,16-20, 21-25,..., 66-70, then output list of
+companies in each bucket
+
+create view pe_ratio_bucket as select name, sector, pe_ratio as pe_ratio_range, case when pe_ratio >=11 and pe_ratio<=15 then '11-15' when pe_ratio >=16 and pe_ratio<=20 then '16-20' when pe_ratio >=21 and pe_ratio<=25 then '21-25' when pe_ratio >=26 and pe_ratio<=30 then '26-30' when pe_ratio >=31 and pe_ratio<=35 then '31-35' when pe_ratio >=36 and pe_ratio<=40 then '36-40' when pe_ratio >=41 and pe_ratio<=45 then '41-45' when pe_ratio >=46 and pe_ratio<=50 then '46-50' when pe_ratio >=51 and pe_ratio<=55 then '51-55' when pe_ratio >=56 and pe_ratio<=60 then '56-60' when pe_ratio >=61 and pe_ratio<=65 then '61-65' when pe_ratio >=66 and pe_ratio<=70 then '66-70' else '-' end as pe_range from stockcompanies;
+
+select name from stockcompanies where pe_ratio_range = "11-15";
+select name from stockcompanies where pe_ratio_range = "16-20";
+select name from stockcompanies where pe_ratio_range = "21-25";
+select name from stockcompanies where pe_ratio_range = "26-30";
+select name from stockcompanies where pe_ratio_range = "31-35";
+select name from stockcompanies where pe_ratio_range = "36-40";
+select name from stockcompanies where pe_ratio_range = "41-45";
+select name from stockcompanies where pe_ratio_range = "46-50";
+select name from stockcompanies where pe_ratio_range = "51-55";
+select name from stockcompanies where pe_ratio_range = "56-60";
+select name from stockcompanies where pe_ratio_range = "61-65";
+select name from stockcompanies where pe_ratio_range = "66-70";
+
+================================================================================================
+
+Top 100 companies can also be viewed sector wise by executing following queries:
+
+Sample Example:
+
+create view hotels_top100 as select * from stockcompanies  where sector = 'hotels' order by market_capital desc limit 100;
+
+select * from hotels_top100;
+
+Note: there are 113 distinct sectors. So the required sector can be chosen to create and view top 100 companies in that sector
