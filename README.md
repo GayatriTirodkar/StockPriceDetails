@@ -40,6 +40,8 @@ File Description:
 	
 	c. pe_ratio_buckets.sql: Sql dump obtained for forming bucket of P/E ratios in interval of 5, 11-15,16-20, 21-25,..., 66-70 
 
+8. top100_hotels.sql: Sql dump to show sample of top 100 companies as per their market_capital in hotel sector. 
+
 Command to import sql data:
 
 	mysql -p -u [user] [database] < backup-file.sql
